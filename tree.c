@@ -81,7 +81,7 @@ TREE sync_catE ()
         et = sync_catET();
         if (et != NULL)
         {
-            return makeNode2('E', c, et);
+            return makeNode2("E", c, et);
         }
         else {
             return FAILED;
@@ -104,7 +104,7 @@ TREE sync_catET()
         e = sync_catE();
         if (e != NULL)
         {
-            return makeNode2("ET", makeNode0('|'), e);
+            return makeNode2("ET", makeNode0("|"), e);
         }
         else 
         {
@@ -115,7 +115,7 @@ TREE sync_catET()
     
     else 
     {
-        return makeNode1("ET", makeNode0('0'));
+        return makeNode1("ET", makeNode0("0"));
     }
 }
 /* <C> -> <S><CT> */
@@ -130,7 +130,7 @@ TREE sync_catC ()
         ct = sync_catCT();
         if (ct != NULL)
         {
-            return makeNode2('C', s, ct);
+            return makeNode2("C", s, ct);
         }
         else 
         {
@@ -154,7 +154,7 @@ TREE sync_catCT()
         c = sync_catC();
         if (c != FAILED)
         {
-            return makeNode2('CT', makeNode0('.'), c);
+            return makeNode2("CT", makeNode0("."), c);
         }
         else
         {
@@ -163,7 +163,7 @@ TREE sync_catCT()
     }
     else
     {
-        return makeNode1('CT', makeNode0('0'));
+        return makeNode1("CT", makeNode0("0"));
     }
 }
 
@@ -178,7 +178,7 @@ TREE sync_catS()
         st = sync_catST();
         if (st != NULL)
         {
-            return makeNode2('S', a, st);
+            return makeNode2("S", a, st);
         }
         else 
         {
