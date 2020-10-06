@@ -267,7 +267,7 @@ TREE sync_catX()
     {
         char curr = *lookahead;
         lookahead++;
-        return makeNode1('X', makeNode0(&curr));
+        return makeNode1('X', makeNode0(curr));
     }
  
     return FAILED;
