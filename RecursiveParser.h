@@ -22,6 +22,8 @@ extern TREE makeNode0(char x);
 extern TREE makeNode1(char x, TREE t);
 //tree with four children
 extern TREE makeNode4(char x, TREE t1, TREE t2, TREE t3, TREE t4);
+// free tree nodes
+extern void freeTREE(TREE root);
 
 //Functions for the syntactic categories
 extern TREE sync_catE();

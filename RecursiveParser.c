@@ -291,7 +291,19 @@ void print(TREE parseTree, int j)
         curr = curr ->rightSibling;
     }
 }
+// void freeTREE(TREE node)
+// {
+//     if(node->leftmostChild==NULL){
+//         return;
+//     }else{
 
+//     }
+//     if(node->rightSibling==NULL){
+//         return;
+//     }
+//     freeTREE(node->leftmostChild);
+//     free(node);
+// }
 
 
 
