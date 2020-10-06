@@ -7,6 +7,67 @@
 //now we need to create an array of productions
 //subsequently, we need a 2d array which is table
 
+//here is our table...<Anisha will do>
+/*
+    The base expression is <S>-> <E>$
+    <E>
+*/
+
+char* nextTerminal;
+
+//this is our table for the parser
+    int parseTable[9][7] =
+    {
+        {0, 0, 0, 0, 0, 0, 0},
+        {1, 0, 0, 0, 0, 1, 0},
+        {3, 0, 0, 0, 0, 3, 0},
+        {2, 2, 2, 2, 2, 2, 2},
+        {4, 4, 4, 4, 4, 4, 4},
+        {5, 0, 0, 0, 0, 5, 0},
+        {7, 0, 0, 0, 0, 7, 0},
+        {6, 6, 6, 6, 6, 6, 6},
+        {8, 0, 0, 0, 0, 0, 0}
+    }
+
+/* <E> -> <C><F> we have <ET> as <F> */
+void makeProduction1()
+{
+    TREE C = makeNode0('C');
+    TREE et = makeNode0('F');
+    push(et);
+    push(C);
+    return;
+}
+
+/* <ET> -> | <E> | epsilon, we have F as <ET> and 0 as epsilon */
+void makeProduction2()
+{
+    if (*nextTerminal == '|')
+    {
+        TREE e = makeNode0('E');
+        TREE pipe = makeNode0('|');
+        push(e);
+        push(pipe);
+    }
+    else
+    {
+        TREE eps = makeNode0('0');
+        push(eps);
+    }
+    
+}
+/* <C> -> <S><CT> we have B as <CT>*/
+void makeProduction3()
+{
+    TREE s = makeNode0('S');
+    TREE ct = makeNode0('B');
+    
+}
+void makeProduction4();
+void makeProduction5();
+void makeProduction6();
+void makeProduction7();
+void makeProductionNeg();
 int is_terminal(char c)
 {
     if (c <= 'z' && c >= 'a')
@@ -33,6 +94,7 @@ int equi_prod(char c)
 {
     switch(c)
     {
+        //s->E$
         case 's': return 0;//this should be the string with the ENDM, think if this should be there or not
         case 'E': return 1;
         case 'C': return 2;
@@ -64,9 +126,4 @@ int equi_char(char c)
         default: return 10;
     }
 }
-int make_table (char* input)
-{
-    //now we need to create an array of productions
-//subsequently, we need a 2d array which is table
-//we will also need to make a parse tree from the working of the table
-}
+

@@ -8,7 +8,7 @@
 /*
     x
 */
-TREE makeNode0(char* x) {
+TREE makeNode0(char x) {
     TREE root;
 
     root = malloc(sizeof(struct NODE));
@@ -22,7 +22,7 @@ TREE makeNode0(char* x) {
   /
 t1
 */
-TREE makeNode1(char* x, TREE t) {
+TREE makeNode1(char x, TREE t) {
     TREE root;
 
     root = makeNode0(x);
@@ -30,7 +30,7 @@ TREE makeNode1(char* x, TREE t) {
     return root;
 }
 
-TREE makeNode2 (char* x, TREE t1, TREE t2)
+TREE makeNode2 (char x, TREE t1, TREE t2)
 {
     TREE root = makeNode1(x, t1);
     t1->rightSibling = t2;
@@ -41,7 +41,7 @@ TREE makeNode2 (char* x, TREE t1, TREE t2)
   /  \       \
 t1 --> t2 --> t3
 */
-TREE makeNode3 (char* x, TREE t1, TREE t2, TREE t3)
+TREE makeNode3 (char x, TREE t1, TREE t2, TREE t3)
 {
     TREE root;
     root = makeNode1(x, t1);
@@ -55,7 +55,7 @@ TREE makeNode3 (char* x, TREE t1, TREE t2, TREE t3)
   /  \       \      \
 t1 --> t2 --> t3 --> t4
 */
-TREE makeNode4(char* x, TREE t1, TREE t2, TREE t3, TREE t4) {
+TREE makeNode4(char x, TREE t1, TREE t2, TREE t3, TREE t4) {
     TREE root;
 
     root = makeNode1(x, t1);
@@ -93,7 +93,7 @@ TREE sync_catE ()
 }
 
 //look at this again
-/* <ET> -> | <E> | e */
+/* <ET> -> | <E> | e ..we have F for <ET>*/
 TREE sync_catET()
 {
     TREE e;
@@ -104,7 +104,7 @@ TREE sync_catET()
         e = sync_catE();
         if (e != NULL)
         {
-            return makeNode2("ET", makeNode0('|'), e);
+            return makeNode2('F', makeNode0('|'), e);
         }
         else 
         {
@@ -115,10 +115,10 @@ TREE sync_catET()
     
     else 
     {
-        return makeNode1("ET", makeNode0('0'));
+        return makeNode1('F', makeNode0('0'));
     }
 }
-/* <C> -> <S><CT> */
+/* <C> -> <S><CT> ..we have B for <CT>*/
 TREE sync_catC ()
 {
     TREE s;
@@ -154,7 +154,7 @@ TREE sync_catCT()
         c = sync_catC();
         if (c != FAILED)
         {
-            return makeNode2('CT', makeNode0('.'), c);
+            return makeNode2('B', makeNode0('.'), c);
         }
         else
         {
@@ -163,11 +163,11 @@ TREE sync_catCT()
     }
     else
     {
-        return makeNode1('CT', makeNode0('0'));
+        return makeNode1('B', makeNode0('0'));
     }
 }
 
-/* S -> <A><ST> */
+/* S -> <A><ST> ..we have P for <ST>*/
 TREE sync_catS()
 {
     TREE a;
@@ -200,7 +200,7 @@ TREE sync_catST ()
         st = sync_catST();
         if (st != FAILED)
         {
-            return makeNode2("ST", makeNode0('*'), st);
+            return makeNode2('P', makeNode0('*'), st);
         }
         else 
         {
@@ -209,7 +209,7 @@ TREE sync_catST ()
     }
     else 
     {
-        return makeNode1("ST", makeNode0('0'));
+        return makeNode1('P', makeNode0('0'));
     }
 }
 
@@ -240,7 +240,7 @@ TREE sync_catA()
         x = sync_catX();
         if (x != NULL)
         {
-            return makeNode1("A", x);
+            return makeNode1('A', x);
         }
         else
         {

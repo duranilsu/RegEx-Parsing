@@ -1,17 +1,16 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX 100
-struct Stack 
-{
-    char arr[MAX];
-    int size;
-};
+#include "RecursiveParser.h"
+#define MAX 1000
+int size = 0;
+
+TREE stack[MAX];
 
 typedef struct Stack Stack;
 
 size = 0;
 
-extern char peek(Stack* pStack);
-extern void push(Stack* pStack, char element);
-extern char pop(Stack* pStack);
-extern int isEmpty(Stack* pStack);
+
+extern void push(TREE curr);
+extern TREE pop();
+
