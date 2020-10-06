@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "tree.h"
+#include "RecursiveParser.h"
 
 #define MAX 100
 int main()
