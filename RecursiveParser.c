@@ -7,6 +7,16 @@
 
 
 
+TREE makeNode(char x, int indent) {
+    TREE root;
+
+    root = malloc(sizeof(struct NODE));
+    numNodes++;
+    root->label = x;
+    root->leftmostChild = NULL;
+    root->rightSibling = NULL;
+    return root;
+}
 
 /*
     x

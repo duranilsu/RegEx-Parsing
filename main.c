@@ -148,7 +148,7 @@ int main()
         printf("%c here is the pointer\n", *nextTerminal);
         printf("Parsing on: %s \n", input);
         //ParsFunction()
-        if(parse == FAILED) 
+        if(!ParsFunction()) 
         {
             // if (parseTree != FAILED)
             // {
@@ -159,12 +159,12 @@ int main()
         else 
         {
             printf("----------------------|Tree|----------------------\n");
-            print(parse, -1);
             //freeTREE(parse);
             printf("\n");
             //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
         }
-        while (getSize() != 0){
+        while (getSize() != 0)
+        {
             TREE curr = pop();
             freeTREE(curr);
         }

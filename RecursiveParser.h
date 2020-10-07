@@ -15,6 +15,7 @@ extern int numFree;
 typedef struct NODE *TREE;
 struct NODE {
     char label;
+    int indent;
     TREE leftmostChild, rightSibling;
 };
 
@@ -22,6 +23,7 @@ TREE parseTree;
 
 char* lookahead;
 //a tree with no children
+extern TREE makeNode(char x, int j);
 extern TREE makeNode0(char x);
 //tree with one child
 extern TREE makeNode1(char x, TREE t);
