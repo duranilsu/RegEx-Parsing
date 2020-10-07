@@ -478,6 +478,38 @@ void push(TREE curr)
         return;
     }
 }
+//get printing line for node
+void getLabel(char *x, int indent) {
+    int index = 0;
+    while (index < indent){
+        printing[indexForPrinting] = ' ';
+        indexForPrinting++;
+        printing[indexForPrinting] = ' ';
+        indexForPrinting++;
+        index++;
+        //printf("  ");
+    }
+    int i = 0;
+    while (x[i] != '\0'){
+        printing[indexForPrinting] = x[i];
+        indexForPrinting++;
+        i++;
+    }
+    //printf("%s\n",x);
+    printing[indexForPrinting] = '\n';
+    indexForPrinting++;
+}
+
+//print parse tree 
+void printParseTree(){
+    printing[indexForPrinting] = '\0';
+    int i = 0;
+    while (printing[i] != '\0'){
+        printf("%c",printing[i]);
+        i++;
+    }
+    indexForPrinting = 0;
+}
 
 
 
