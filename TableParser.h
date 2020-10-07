@@ -2,6 +2,7 @@
 #ifndef _Table_Parser_h
 #define _Table_Parser_h
 //choose production from the table--what does it take in though?
+char* nextTerminal;
 extern void chooseProduction();
 extern void push(TREE curr);
 extern TREE pop();
@@ -24,13 +25,14 @@ extern void makeProduction5();
 extern void makeProduction6();
 extern void makeProduction7();
 extern void makeProduction8();
+extern int getSize ();
 
 extern void makeProductionNeg();
 //function to match the terminals
 extern bool marchterminal(char c);
 //function to parse the given input
-extern bool ParsFunction(TREE root);
-
+//extern bool ParsFunction(TREE root);
+extern TREE ParsFunction();
 #endif
 
 /*

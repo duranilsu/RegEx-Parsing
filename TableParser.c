@@ -16,8 +16,11 @@
 int size = 0;
 TREE stack[MAX];
 
-char* nextTerminal;
+// char* nextTerminal;
+//it should point to the same character as what lookahead is pointing to
+//char* nextTerminal;
 //int size = 0;
+
 //this is our table for the parser
     int parseTable[9][7] =
     {
@@ -278,28 +281,45 @@ void chooseProduction(int production)
     }
     
 }
-//this is the parser for the table-driven algorithm
-bool ParsFunction(TREE root)
+
+int getSize ()
+{
+    return size;
+}
+
+//this is the case where a tree is returned and printed by the main function
+//the problem with this method is that I am not sure about whether there are changes being made on the root tree that is created by us. 
+//we need to call makeNode everytime we get a production
+//I am not entirely sure about how
+// it only returns <E> 
+//Q1:where are we making nodes for this parsing function??
+//we do it on root 
+//curr is the tree on top of the stack so we cannot use that 
+TREE ParsFunction()
 {
     //maybe we could set nextterminal to point to input??--->think of this
     //we follow the algorithm as mentioned in the book (FOCS 11)
-    root = makeNode0('E'); //we make the node for the first expression
+    TREE root = makeNode0('E'); //we make the node for the first expression
     push(root);
+    TREE current = NULL;
     while (size != 0)
     {
         //we pop the current node from the stack
-        TREE current = pop();
+        current = pop();
 
         if (current == FAILED) 
         {
-            return false;
+            printf("Invalid input1");
+            return FAILED;
         }
         //otherwise,we can check for valid input and get the column
         int column = getColumn(*nextTerminal);
         if (column == -1)
         {
-            if (current!= FAILED) freeTREE(current);
-            return false;
+            //if (current!= FAILED) freeTREE(current);
+            //return false;
+            printf("invalid input2");
+            return FAILED;
         }
         //get rows by the labels
         int row = getRow(current->label);
@@ -320,8 +340,10 @@ bool ParsFunction(TREE root)
                 {
                     if (current != FAILED) 
                     {
-                        freeTREE(current);
-                        return false;
+                        //freeTREE(current);
+                        //return false;
+                        printf("Invalid input3!!");
+                        return FAILED;
                     }
                 }
             }
@@ -329,20 +351,112 @@ bool ParsFunction(TREE root)
         }
         if (current == FAILED)
         {
-            return false;
+            //return false;
+            printf("Invalid4!");
+            return FAILED;
         }
         else
         {
-            freeTREE(current);
+            //return root;
+            //if i returned root here-- it would just give me <E> that is why it is best to do nothing
+            //return current;
+            //freeTREE(current);
         }
         
     }
     if (!(*nextTerminal == '\0'))
     {
-        return false;
+        //return false;
+        printf("Invalid input5");
+        return FAILED;
     }
-    return true;
+    //return current;
+    return root;
 }
+
+TREE getSynCat (int row, char label)
+{
+    TREE node = makeNode0(label);
+    row = getRow(label);
+    return node;
+
+}
+//this is the parser for the table-driven algorithm
+//the tree will be formed with the root as <E> which is the start expression
+
+// bool ParsFunction(TREE root)
+// {
+//     //maybe we could set nextterminal to point to input??--->think of this
+//     //we follow the algorithm as mentioned in the book (FOCS 11)
+//     // root = makeNode0('E'); //we make the node for the first expression
+//     // push(root);
+//     while (size != 0)
+//     {
+//         printf("Size of the stack is not 0 yet\n");
+//         //we pop the current node from the stack
+//         TREE current = pop();
+//         printf("just popped the tree on the top\n");
+//         if (current == FAILED) 
+//         {
+//             printf("current is NULL -which means it has failed");
+//             return false;
+//         }
+//         //otherwise,we can check for valid input and get the column
+//         /*
+//         there is definately something wrong with our nextTerminal -it is not initialized its just a pointer pointing to nothing rn
+//         */
+//         printf("maybe there is a problem with next terminal? I am not sure why the coulmn is not working %s", nextTerminal);
+//         int column = getColumn(*nextTerminal);
+//         printf("just got the columns now!\n");
+
+//         if (column == -1)
+//         {           
+//             //if (current!= FAILED) freeTREE(current);
+//             return false;
+//         }
+//         //get rows by the labels
+//         int row = getRow(current->label);
+//         printf("just got the rows now!\n");
+//         int production = getProduction(row, column);
+//         if (row > 0)
+//         {
+//             chooseProduction(production);
+//         }
+//         else
+//         {
+//             if (*nextTerminal == current->label)
+//             {
+//                 nextTerminal++;
+//             }
+//             else
+//             {
+//                 if (!(*nextTerminal == current->label && current->label == 0))
+//                 {
+//                     if (current != FAILED) 
+//                     {
+//                         //freeTREE(current);
+//                         return false;
+//                     }
+//                 }
+//             }
+
+//         }
+//         if (current == FAILED)
+//         {
+//             return false;
+//         }
+//         else
+//         {
+//             //freeTREE(current);
+//         }
+        
+//     }
+//     if (!(*nextTerminal == '\0'))
+//     {
+//         return false;
+//     }
+//     return true;
+// }
 TREE pop ()
 {
     if (size == 0)
