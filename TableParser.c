@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "Stack.h"
 #include "TableParser.h"
+
+
 
 //now we need to create an array of productions
 //subsequently, we need a 2d array which is table
@@ -12,9 +13,11 @@
     The base expression is <S>-> <E>$
     <E>
 */
+int size = 0;
+TREE stack[MAX];
 
 char* nextTerminal;
-
+//int size = 0;
 //this is our table for the parser
     int parseTable[9][7] =
     {
@@ -27,7 +30,7 @@ char* nextTerminal;
         {7, 0, 0, 0, 0, 7, 0},
         {6, 6, 6, 6, 6, 6, 6},
         {8, 0, 0, 0, 0, 0, 0}
-    }
+    };
 
 /* <E> -> <C><F> we have <ET> as <F> */
 void makeProduction1()
@@ -136,7 +139,7 @@ void makeProduction8()
     char curr = *nextTerminal;
     if (is_terminal(curr))
     {
-        TREE letter = makeNode0('curr');
+        TREE letter = makeNode0(curr);
         push(letter);
         return;
     }
@@ -225,27 +228,151 @@ int getProduction(int row, int column)
     return parseTable[row][column];
 }
 
+//we need to be able to chooe the productions
+void chooseProduction(int production)
+{
+    if (production == 1)
+    {
+        makeProduction1();
+        return;
+    }
+    else if (production == 2)
+    {
+        makeProduction2();
+        return;
+    }
+    else if (production == 3)
+    {
+        makeProduction3();
+        return;
+    }
+    else if (production == 4)
+    {
+        makeProduction4();
+        return;
+    }
+    else if (production == 5)
+    {
+        makeProduction5();
+        return;
+    }
+    else if (production == 6)
+    {
+        makeProduction6();
+        return;
+    }
+    else if (production == 7)
+    {
+        makeProduction7();
+        return;
+    }
+    else if (production == 8)
+    {
+        makeProduction8();
+        return;
+    }
+    else
+    {
+        makeProductionNeg();
+        return;
+    }
+    
+}
 //this is the parser for the table-driven algorithm
-bool ParsFunction()
+bool ParsFunction(TREE root)
 {
     //maybe we could set nextterminal to point to input??--->think of this
     //we follow the algorithm as mentioned in the book (FOCS 11)
-    TREE root = makeNode0('E'); //we make the node for the first expression
+    root = makeNode0('E'); //we make the node for the first expression
     push(root);
     while (size != 0)
     {
         //we pop the current node from the stack
         TREE current = pop();
 
-        if (current == FAILED) return false;
+        if (current == FAILED) 
+        {
+            return false;
+        }
         //otherwise,we can check for valid input and get the column
         int column = getColumn(*nextTerminal);
         if (column == -1)
         {
-            
+            if (current!= FAILED) freeTREE(current);
+            return false;
         }
+        //get rows by the labels
+        int row = getRow(current->label);
+        int production = getProduction(row, column);
+        if (row > 0)
+        {
+            chooseProduction(production);
+        }
+        else
+        {
+            if (*nextTerminal == current->label)
+            {
+                nextTerminal++;
+            }
+            else
+            {
+                if (!(*nextTerminal == current->label && current->label == 0))
+                {
+                    if (current != FAILED) 
+                    {
+                        freeTREE(current);
+                        return false;
+                    }
+                }
+            }
+
+        }
+        if (current == FAILED)
+        {
+            return false;
+        }
+        else
+        {
+            freeTREE(current);
+        }
+        
+    }
+    if (!(*nextTerminal == '\0'))
+    {
+        return false;
+    }
+    return true;
+}
+TREE pop ()
+{
+    if (size == 0)
+    {
+        printf("---Stack is empty as f-----");
+        return FAILED;
+    }
+    else 
+    {
+        size--;
+        return stack[size];
+    }
+    return FAILED;
+}
+
+void push(TREE curr)
+{
+    if (size < MAX)
+    {
+        stack[size] = curr;
+        size++;
+    }
+    else
+    {
+        printf("TOO BIGGGGGGGGGG--that's what she said ;)");
+        return;
     }
 }
+
+
 
 
 

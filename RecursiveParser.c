@@ -5,6 +5,9 @@
 
 #include "RecursiveParser.h"
 
+
+
+
 /*
     x
 */
@@ -12,6 +15,7 @@ TREE makeNode0(char x) {
     TREE root;
 
     root = malloc(sizeof(struct NODE));
+    numNodes++;
     root->label = x;
     root->leftmostChild = NULL;
     root->rightSibling = NULL;
@@ -291,19 +295,21 @@ void print(TREE parseTree, int j)
         curr = curr ->rightSibling;
     }
 }
-// void freeTREE(TREE node)
-// {
-//     if(node->leftmostChild==NULL){
-//         return;
-//     }else{
 
-//     }
-//     if(node->rightSibling==NULL){
-//         return;
-//     }
-//     freeTREE(node->leftmostChild);
-//     free(node);
-// }
+void freeTREE(TREE root)
+{
+    if(root->leftmostChild)
+    {
+        freeTREE(root->leftmostChild);
+    }
+    if (root->rightSibling)
+    {
+        freeTREE(root->rightSibling);
+    }
+    numFree++;
+    free(root);
+    
+}
 
 
 

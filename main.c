@@ -7,8 +7,11 @@
 #include <string.h>
 #include <stdbool.h>
 #include "RecursiveParser.h"
+#include "TableParser.h"
 
-#define MAX 100
+
+int numFree = 0;
+int numNodes = 0;
 int main()
 {
 
@@ -38,8 +41,12 @@ int main()
         {
             printf("----------------------|Tree|----------------------\n");
             print(parseTree, -1);
+            freeTREE(parseTree);
             printf("\n");
+            //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
         }
     }
+
+//table-driven parser
 
 }

@@ -5,6 +5,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #define FAILED NULL
+#define MAX 1000
+#ifndef _RecursiveParser_h
+#define _RecursiveParser_h
+extern int numNodes;
+extern int numFree;
 
 //we defined tree as pointer to a struct called node
 typedef struct NODE *TREE;
@@ -35,3 +40,4 @@ extern TREE sync_catA();
 extern TREE sync_catST();
 extern TREE sync_catX();
 extern void print(TREE parseTree, int j);
+#endif
