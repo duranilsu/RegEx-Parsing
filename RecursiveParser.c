@@ -9,13 +9,13 @@
 
 TREE makeNode(char* x, int indent) {
     TREE root;
-    printf("hellow world");
+    printf("hellow world\n");
     root = malloc(sizeof(struct NODE));
     //numNodes++;
     root->label = x;
     root->leftmostChild = NULL;
     root->rightSibling = NULL;
-    printf("label in makenode is -- %s", root->label);
+    printf("label in makenode is -- %s\n", root->label);
     return root;
 }
 

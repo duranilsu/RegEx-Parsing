@@ -17,7 +17,7 @@ int size = 0;
 TREE stack[MAX];
 char printing[MAX];
 int indexForPrinting = 0;
-
+char* start;
 // char* nextTerminal;
 //it should point to the same character as what lookahead is pointing to
 //char* nextTerminal;
@@ -366,12 +366,13 @@ bool ParsFunction()
     TREE root = makeNode("E", 0); //we make the node for the first expression
     printf("The root is given value %s\n", root->label);
     push(root);
+    printf("push successfull--- %s", root->label);
     printf("The root is pushed on the stack\n");
     while (size != 0)
     {
         //we pop the current node from the stack
         TREE current = pop();
-        printf("label is %s \n:", current->label);
+        printf("pop successfull--- %s\n", current->label);
         //printf("Our label is currently: %s \t our terminal is: %c", current->label, *nextTerminal);
         printf("got the topmost tree in curr\n");
         
@@ -448,6 +449,42 @@ bool ParsFunction()
         return false;
     }
     return true;
+}
+
+void runTableParser()
+{
+    start = (char*) malloc(sizeof(char)*256);
+    bool flag = true;
+    printf("-------------------------\n");
+    printf("Trying Table Driven Parser...\n");
+    while (flag){
+        printf("\tEnter expression here (\"quit\" to quit and no more than 255 characters):");
+        char input[256];
+        scanf("%255s",input);
+        if (strcmp(input,"quit") == 0){
+            flag = false;
+        }
+        else {
+            printf("Result for \"%s\":\n \n", input);
+            nextTerminal = start;
+            strcpy(nextTerminal,input);
+            if (!ParsFunction()){
+                printf("Invalid input\n");
+            }
+            else {
+                printParseTree();
+            }
+            while (size != 0){
+                TREE curr = pop();
+                freeTREE(curr);
+            }
+        }
+        printf("\n");
+    }
+    free(start);
+    //freeTable(parseTable);
+    //freeStack();
+    //free(printing);
 }
 
 //this is the parser for the table-driven algorithm
@@ -528,15 +565,12 @@ bool ParsFunction()
 // }
 TREE pop ()
 {
-    if (size == 0)
-    {
-        printf("---Stack is empty as f-----");
-        return FAILED;
-    }
-    else 
+    TREE curr;
+    if (size > 0)
     {
         size--;
-        return stack[size];
+        printf("size of stack is now: \t%d", size);
+        curr =stack[size];
     }
     return FAILED;
 }

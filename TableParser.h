@@ -19,6 +19,7 @@ extern int is_terminal(char c);
 extern int is_operator(char c);
 //we need to have functions for each production
 extern void makeProduction1(TREE root);
+extern void runTableParser();
 extern void makeProduction2(TREE root);
 extern void makeProduction3(TREE root);
 extern void makeProduction4(TREE root);
