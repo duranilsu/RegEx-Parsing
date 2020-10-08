@@ -15,6 +15,8 @@
 */
 int size = 0;
 TREE stack[MAX];
+char printing[MAX];
+int indexForPrinting = 0;
 
 // char* nextTerminal;
 //it should point to the same character as what lookahead is pointing to
@@ -82,7 +84,7 @@ void makeProduction4(TREE root)
     {
         TREE c = makeNode('C', num);
         TREE concat = makeNode('.', num);
-        push(c);
+        push(c);  
         push(concat);
         return;
     }
@@ -118,6 +120,7 @@ void makeProduction6(TREE root)
     }
     else
     {
+        printf("in production 6 now----\n");
         TREE eps = makeNode('0', num);
         push(eps);
         return;
@@ -307,58 +310,67 @@ bool ParsFunction()
 {
     //maybe we could set nextterminal to point to input??--->think of this
     //we follow the algorithm as mentioned in the book (FOCS 11)
+    printf("Just got in\n");
     TREE root = makeNode('E', 0); //we make the node for the first expression
+    printf("The root is given value E\n");
     push(root);
+    printf("The root is pushed on the stack\n");
     while (size != 0)
     {
         //we pop the current node from the stack
         TREE current = pop();
+        printf("got the topmost tree in curr\n");
 
         if (current == FAILED) 
         {
-            //printf("Invalid input1");
-            return FAILED;
+            printf("Invalid input--1\n");
+            return false;
         }
         //otherwise,we can check for valid input and get the column
         int column = getColumn(*nextTerminal);
         if (column == -1)
         {
-            if (current!= FAILED) freeTREE(current);
+            if (current!= FAILED) 
+            {
+                freeTREE(current);
+            }
+            printf("Invalid input--2\n");
             return false;
-        }
+        } 
         //get rows by the labels
         int row = getRow(current->label);
+        printf("We are in row: %i\t and column %d \t\n: ",row, column);
         int production = getProduction(row, column);
         if (row > 0)
         {
             chooseProduction(current, production);
         }
-        else
+        else if (*nextTerminal == current->label)
         {
-            if (*nextTerminal == current->label)
+            //move on to next char at the input
+            nextTerminal+=sizeof(char);
+        }
+        else 
+        {
+            if (current != FAILED) 
             {
-                nextTerminal++;
-            }
-            else
-            {
-                if (!(*nextTerminal == current->label && current->label == '0'))
-                {
-                    if (current != FAILED) 
-                    {
-                        freeTREE(current);
-                        return false;
-                    }
-                }
+                printf("Current label is: --- %c\n", current->label);
+                printf("Nextterminal is currently--- %c\n", *nextTerminal);
+                freeTREE(current);
+                printf("Invalid input--3\n");
+                return false;
             }
         }
+
         if (current == FAILED)
         {
+            printf("Invalid input--4\n");
             return false;
             
         }
         else
         {
-            getLabel(current->label, current->indent);
+            getLabel(&current->label, current->indent);
             freeTREE(current);
             //return root;
             //if i returned root here-- it would just give me <E> that is why it is best to do nothing
@@ -367,8 +379,9 @@ bool ParsFunction()
         }
         
     }
-    if (!(*nextTerminal == '\0'))
+    if (*nextTerminal != '\0')
     {
+        printf("Invalid input--5\n");
         return false;
     }
     return true;
@@ -479,7 +492,7 @@ void push(TREE curr)
     }
 }
 //get printing line for node
-void getLabel(char *x, int indent) {
+void getLabel(char* x, int indent) {
     int index = 0;
     while (index < indent){
         printing[indexForPrinting] = ' ';

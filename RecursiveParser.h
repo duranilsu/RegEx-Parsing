@@ -42,7 +42,7 @@ extern TREE sync_catCT();
 extern TREE sync_catA();
 extern TREE sync_catST();
 extern TREE sync_catX();
-extern void getLabel(char *x, int indent);
+//extern void getLabel(char x, int indent);
 extern void printParseTree();
 extern void print(TREE parseTree, int j);
 #endif

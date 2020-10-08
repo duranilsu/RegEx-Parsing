@@ -144,10 +144,14 @@ int main()
         nextTerminal = input;
         //printf("%c here is the pointer\n", *lookahead);
         printf("Trying to parse noww......");
-        TREE parse = ParsFunction();
+        // TREE parse = ParsFunction();
         printf("%c here is the pointer\n", *nextTerminal);
+        printf("%s \n",input);
         printf("Parsing on: %s \n", input);
-        //ParsFunction()
+        printf("Okay calling method parsefunc\n");
+        // bool val=ParsFunction();
+        // printf("%c",val);
+        // printf("called parse function once");
         if(!ParsFunction()) 
         {
             // if (parseTree != FAILED)
@@ -163,11 +167,11 @@ int main()
             printf("\n");
             //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
         }
-        while (getSize() != 0)
-        {
-            TREE curr = pop();
-            freeTREE(curr);
-        }
+        // while (getSize() != 0)
+        // {
+        //     TREE curr = pop();
+        //     freeTREE(curr);
+        // }
     }
 
 }
