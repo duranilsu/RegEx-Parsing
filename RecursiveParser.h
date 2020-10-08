@@ -4,6 +4,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #define FAILED NULL
 #define MAX 1000
 #ifndef _RecursiveParser_h
@@ -15,7 +16,7 @@ extern int numFree;
 //we defined tree as pointer to a struct called node
 typedef struct NODE *TREE;
 struct NODE {
-    char label;
+    char* label;
     int indent;
     TREE leftmostChild, rightSibling;
 };
@@ -23,13 +24,13 @@ struct NODE {
 TREE parseTree;
 
 char* lookahead;
-//a tree with no children
-extern TREE makeNode(char x, int j);
-extern TREE makeNode0(char x);
-//tree with one child
-extern TREE makeNode1(char x, TREE t);
-//tree with four children
-extern TREE makeNode4(char x, TREE t1, TREE t2, TREE t3, TREE t4);
+//a tree with no children*
+extern TREE makeNode(char *x, int j);
+extern TREE makeNode0(char* x);
+//tree with one child*
+extern TREE makeNode1(char *x, TREE t);
+//tree with four children*
+extern TREE makeNode4(char *x, TREE t1, TREE t2, TREE t3, TREE t4);
 // free tree nodes
 extern void freeTREE(TREE root);
 

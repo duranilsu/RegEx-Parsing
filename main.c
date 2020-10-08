@@ -132,7 +132,13 @@ int main()
     
 
     //the final one I hope
+    char* start;
     printf("-------------Table-Driven Parser-------------\n");
+    
+    do 
+    {
+        start = (char*)malloc(sizeof(char)* MAX);
+    } while (start == NULL);
     while (true)
     {
         printf("Enter an Arithmetic expression or type quit to exit \n");
@@ -141,12 +147,13 @@ int main()
         {
             break;
         }
-        nextTerminal = input;
+        nextTerminal = start;
+        strcpy(nextTerminal,input);
         //printf("%c here is the pointer\n", *lookahead);
         printf("Trying to parse noww......");
         // TREE parse = ParsFunction();
         printf("%c here is the pointer\n", *nextTerminal);
-        printf("%s \n",input);
+        //printf("%s \n",input);
         printf("Parsing on: %s \n", input);
         printf("Okay calling method parsefunc\n");
         // bool val=ParsFunction();
@@ -164,6 +171,7 @@ int main()
         {
             printf("----------------------|Tree|----------------------\n");
             //freeTREE(parse);
+            printParseTree();
             printf("\n");
             //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
         }
@@ -173,5 +181,6 @@ int main()
         //     freeTREE(curr);
         // }
     }
+    free(start);
 
 }

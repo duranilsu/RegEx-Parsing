@@ -40,9 +40,9 @@ int indexForPrinting = 0;
 /* <E> -> <C><F> we have <ET> as <F> */
 void makeProduction1(TREE root)
 {
-    int num = root->indent;
-    TREE C = makeNode('C', num);
-    TREE et = makeNode('F', num);
+    int num = root->indent+1;
+    TREE C = makeNode("C", num);
+    TREE et = makeNode("ET", num);
     push(et);
     push(C);
     return;
@@ -51,27 +51,29 @@ void makeProduction1(TREE root)
 /* <ET> -> | <E> | epsilon, we have F as <ET> and 0 as epsilon */
 void makeProduction2(TREE root)
 {
-    int num = root->indent;
+    int num = root->indent+1;
     if (*nextTerminal == '|')
     {
-        TREE e = makeNode('E', num);
-        TREE pipe = makeNode('|', num);
+        TREE e = makeNode("E", num);
+        TREE pipe = makeNode("|", num);
         push(e);
         push(pipe);
+        return;
     }
     else
     {
-        TREE eps = makeNode('0', num);
+        TREE eps = makeNode("eps", num);
         push(eps);
+        return;
     }
     
 }
 /* <C> -> <S><CT> we have B as <CT>*/
 void makeProduction3(TREE root)
 {
-    int num = root->indent;
-    TREE s = makeNode('S', num);
-    TREE ct = makeNode('B', num);
+    int num = root->indent+1;
+    TREE s = makeNode("S", num);
+    TREE ct = makeNode("CT", num);
     push(ct);
     push(s);
     return;
@@ -79,18 +81,18 @@ void makeProduction3(TREE root)
 /* <CT> -> .<C> | eps.. we have B for <CT> and 0 for eps*/
 void makeProduction4(TREE root)
 {
-    int num = root->indent;
+    int num = root->indent+1;
     if (*nextTerminal == '.')
     {
-        TREE c = makeNode('C', num);
-        TREE concat = makeNode('.', num);
+        TREE c = makeNode("C", num);
+        TREE concat = makeNode(".", num);
         push(c);  
         push(concat);
         return;
     }
     else
     {
-        TREE eps = makeNode('0', num);
+        TREE eps = makeNode("eps", num);
         push(eps);
         return;
     }
@@ -99,21 +101,22 @@ void makeProduction4(TREE root)
 /* <S> -> <A><ST>..we have P for <ST> */
 void makeProduction5(TREE root)
 {
-    int num = root->indent;
-    TREE a = makeNode('A', num);
-    TREE st = makeNode('P', num);
+    int num = root->indent+1;
+    TREE a = makeNode("A", num);
+    TREE st = makeNode("ST", num);
     push(st);
     push(a);
+    printf("in production five now----\n");
     return;
 }
 /* <ST> -> *<ST> | eps ..we have P for <ST>*/
 void makeProduction6(TREE root)
 {
-    int num = root->indent;
+    int num = root->indent+1;
     if (*nextTerminal == '*')
     {
-        TREE st = makeNode('P', num);
-        TREE star = makeNode('*', num);
+        TREE st = makeNode("ST", num);
+        TREE star = makeNode("*", num);
         push(st);
         push(star);
         return;
@@ -121,7 +124,7 @@ void makeProduction6(TREE root)
     else
     {
         printf("in production 6 now----\n");
-        TREE eps = makeNode('0', num);
+        TREE eps = makeNode("eps", num);
         push(eps);
         return;
     }
@@ -129,19 +132,20 @@ void makeProduction6(TREE root)
 /*A -> (<E>) | <X> */
 void makeProduction7(TREE root)
 {
-    int num = root->indent;
+    int num = root->indent+1;
     if (*nextTerminal == '(')
     {
-        TREE e = makeNode('E', num);
-        TREE open = makeNode('(', num);
-        TREE closing = makeNode(')', num);
+        TREE e = makeNode("E", num);
+        TREE open = makeNode("(", num);
+        TREE closing = makeNode(")", num);
         push(closing);
         push(e);
         push(open);
+        return;
     }
     else 
     {
-        TREE x = makeNode('X', num);
+        TREE x = makeNode("X", num);
         push(x);
         return;
     }
@@ -149,14 +153,26 @@ void makeProduction7(TREE root)
 /* <X> -> a|b|c|d|....|z ..x is a letter */
 void makeProduction8(TREE root)
 {
-    int num = root->indent;
+    int num = root->indent+1;
     char curr = *nextTerminal;
     if (is_terminal(curr))
     {
-        TREE letter = makeNode(curr, num);
+        char input[2];
+        input[0] = curr;
+        printf("current input letter is \t :%c \n", input[0]);
+        input[1] = '\0';
+        TREE letter = makeNode(input, num);
         push(letter);
         return;
     }
+    else
+    {
+        printf("it's not a terminal, let's push\n");
+        TREE c = FAILED;
+        push(c);
+        return;
+    }
+    
 }
 //in case we have no production, we assign it as FAILED
 void makeProductionNeg(TREE root)
@@ -187,20 +203,55 @@ int is_operator(char c)
     }
 }
 
-int getRow(char c)
+int getRow(char* c)
 {
-    switch(c)
+    char first = c[0];
+    switch(first)
     {
         //s->E$
         //case 's': return 0;//this should be the string with the ENDM, think if this should be there or not
-        case 'E': return 1;
-        case 'C': return 2;
-        case 'F': return 3; //this is ET
-        case 'B': return 4;//this is CT
-        case 'S': return 5; 
-        case 'A': return 6;
-        case 'P': return 7; //this is ST
-        case 'X': return 8;
+        case 'E': 
+            if (c[1] == 'T')
+            {
+                return 3;
+            }
+            else if (c[1] == '\0')
+            {
+                return 1;
+            }
+            else return 0;
+        case 'C': 
+            if (c[1] == 'T')
+            {
+                return 4;
+            }
+            else if (c[1] == '\0')
+            {
+                return 2;
+            }
+            else return 0;
+        case 'S':
+            if (c[1] == 'T')
+            {
+                return 7;
+            }
+            else if (c[1] == '\0')
+            {
+                return 5;
+            }
+            else return 0;
+        case 'A': 
+            if (c[1] == '\0')
+            {
+                return 6;
+            }
+            else return 0;
+        case 'X': 
+         if (c[1] == '\0')
+            {
+                return 8;
+            }
+            else return 0;
         default: return 0;
     }
 }
@@ -267,6 +318,7 @@ void chooseProduction(TREE root, int production)
     }
     else if (production == 5)
     {
+        printf("choosing five here------\n");
         makeProduction5(root);
         return;
     }
@@ -311,15 +363,18 @@ bool ParsFunction()
     //maybe we could set nextterminal to point to input??--->think of this
     //we follow the algorithm as mentioned in the book (FOCS 11)
     printf("Just got in\n");
-    TREE root = makeNode('E', 0); //we make the node for the first expression
-    printf("The root is given value E\n");
+    TREE root = makeNode("E", 0); //we make the node for the first expression
+    printf("The root is given value %s\n", root->label);
     push(root);
     printf("The root is pushed on the stack\n");
     while (size != 0)
     {
         //we pop the current node from the stack
         TREE current = pop();
+        printf("label is %s \n:", current->label);
+        //printf("Our label is currently: %s \t our terminal is: %c", current->label, *nextTerminal);
         printf("got the topmost tree in curr\n");
+        
 
         if (current == FAILED) 
         {
@@ -327,6 +382,7 @@ bool ParsFunction()
             return false;
         }
         //otherwise,we can check for valid input and get the column
+        printf("current label is----\t %s\n: ", current->label);
         int column = getColumn(*nextTerminal);
         if (column == -1)
         {
@@ -341,27 +397,34 @@ bool ParsFunction()
         int row = getRow(current->label);
         printf("We are in row: %i\t and column %d \t\n: ",row, column);
         int production = getProduction(row, column);
+        printf("the current production is\t %d %d:\n ", production, row);
+        //printf("curr-label[0] is -- %c\tand NT is -- %c", current->label[0], *nextTerminal);
+        //printf("the value of row is %d: \n", row);
         if (row > 0)
         {
             chooseProduction(current, production);
         }
-        else if (*nextTerminal == current->label)
+        else if (*nextTerminal == current->label[0])
         {
             //move on to next char at the input
             nextTerminal+=sizeof(char);
+            printf("Next terminal is %s \n", nextTerminal);
         }
         else 
         {
-            if (current != FAILED) 
+            if (strcmp(current->label, "eps") != 0 && *nextTerminal != current->label[0])
             {
-                printf("Current label is: --- %c\n", current->label);
-                printf("Nextterminal is currently--- %c\n", *nextTerminal);
-                freeTREE(current);
-                printf("Invalid input--3\n");
-                return false;
+                printf("before I fail, label here is \t%s: \n", current->label);
+                if (current != FAILED) 
+                {
+                    printf("Current label is: --- %s\n", current->label);
+                    printf("Nextterminal is currently--- %c\n", *nextTerminal);
+                    freeTREE(current);
+                    printf("Invalid input--3\n");
+                    return false;
+                }
             }
         }
-
         if (current == FAILED)
         {
             printf("Invalid input--4\n");
@@ -370,7 +433,7 @@ bool ParsFunction()
         }
         else
         {
-            getLabel(&current->label, current->indent);
+            getLabel(current->label, current->indent);
             freeTREE(current);
             //return root;
             //if i returned root here-- it would just give me <E> that is why it is best to do nothing
@@ -491,6 +554,7 @@ void push(TREE curr)
         return;
     }
 }
+
 //get printing line for node
 void getLabel(char* x, int indent) {
     int index = 0;

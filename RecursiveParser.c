@@ -7,21 +7,22 @@
 
 
 
-TREE makeNode(char x, int indent) {
+TREE makeNode(char* x, int indent) {
     TREE root;
-
+    printf("hellow world");
     root = malloc(sizeof(struct NODE));
-    numNodes++;
+    //numNodes++;
     root->label = x;
     root->leftmostChild = NULL;
     root->rightSibling = NULL;
+    printf("label in makenode is -- %s", root->label);
     return root;
 }
 
 /*
     x
 */
-TREE makeNode0(char x) {
+TREE makeNode0(char* x) {
     TREE root;
 
     root = malloc(sizeof(struct NODE));
@@ -36,7 +37,7 @@ TREE makeNode0(char x) {
   /
 t1
 */
-TREE makeNode1(char x, TREE t) {
+TREE makeNode1(char* x, TREE t) {
     TREE root;
 
     root = makeNode0(x);
@@ -44,7 +45,7 @@ TREE makeNode1(char x, TREE t) {
     return root;
 }
 
-TREE makeNode2 (char x, TREE t1, TREE t2)
+TREE makeNode2 (char* x, TREE t1, TREE t2)
 {
     TREE root = makeNode1(x, t1);
     t1->rightSibling = t2;
@@ -55,7 +56,7 @@ TREE makeNode2 (char x, TREE t1, TREE t2)
   /  \       \
 t1 --> t2 --> t3
 */
-TREE makeNode3 (char x, TREE t1, TREE t2, TREE t3)
+TREE makeNode3 (char* x, TREE t1, TREE t2, TREE t3)
 {
     TREE root;
     root = makeNode1(x, t1);
@@ -69,7 +70,7 @@ TREE makeNode3 (char x, TREE t1, TREE t2, TREE t3)
   /  \       \      \
 t1 --> t2 --> t3 --> t4
 */
-TREE makeNode4(char x, TREE t1, TREE t2, TREE t3, TREE t4) {
+TREE makeNode4(char* x, TREE t1, TREE t2, TREE t3, TREE t4) {
     TREE root;
 
     root = makeNode1(x, t1);
@@ -95,7 +96,7 @@ TREE sync_catE ()
         et = sync_catET();
         if (et != NULL)
         {
-            return makeNode2('E', c, et);
+            return makeNode2("E", c, et);
         }
         else {
             return FAILED;
@@ -118,7 +119,7 @@ TREE sync_catET()
         e = sync_catE();
         if (e != NULL)
         {
-            return makeNode2('F', makeNode0('|'), e);
+            return makeNode2("ET", makeNode0("|"), e);
         }
         else 
         {
@@ -129,7 +130,7 @@ TREE sync_catET()
     
     else 
     {
-        return makeNode1('F', makeNode0('0'));
+        return makeNode1("ET", makeNode0("eps"));
     }
 }
 /* <C> -> <S><CT> ..we have B for <CT>*/
@@ -144,7 +145,7 @@ TREE sync_catC ()
         ct = sync_catCT();
         if (ct != NULL)
         {
-            return makeNode2('C', s, ct);
+            return makeNode2("C", s, ct);
         }
         else 
         {
@@ -168,7 +169,7 @@ TREE sync_catCT()
         c = sync_catC();
         if (c != FAILED)
         {
-            return makeNode2('B', makeNode0('.'), c);
+            return makeNode2("CT", makeNode0("."), c);
         }
         else
         {
@@ -177,7 +178,7 @@ TREE sync_catCT()
     }
     else
     {
-        return makeNode1('B', makeNode0('0'));
+        return makeNode1("CT", makeNode0("eps"));
     }
 }
 
@@ -192,7 +193,7 @@ TREE sync_catS()
         st = sync_catST();
         if (st != NULL)
         {
-            return makeNode2('S', a, st);
+            return makeNode2("S", a, st);
         }
         else 
         {
@@ -214,7 +215,7 @@ TREE sync_catST ()
         st = sync_catST();
         if (st != FAILED)
         {
-            return makeNode2('P', makeNode0('*'), st);
+            return makeNode2("ST", makeNode0("*"), st);
         }
         else 
         {
@@ -223,7 +224,7 @@ TREE sync_catST ()
     }
     else 
     {
-        return makeNode1('P', makeNode0('0'));
+        return makeNode1("ST", makeNode0("eps"));
     }
 }
 
@@ -242,7 +243,7 @@ TREE sync_catA()
         if (e != NULL && *lookahead == ')')
         {
             lookahead++;
-            return makeNode3('A', makeNode0('('), e, makeNode0(')'));
+            return makeNode3("A", makeNode0("("), e, makeNode0(")"));
         }
         else 
         {
@@ -254,7 +255,7 @@ TREE sync_catA()
         x = sync_catX();
         if (x != NULL)
         {
-            return makeNode1('A', x);
+            return makeNode1("A", x);
         }
         else
         {
@@ -269,7 +270,7 @@ TREE sync_catA()
     //     x = sync_catX();
     //     if (x != NULL)
     //     {
-    //         return makeNode2('E', )
+    //         return makeNode2("E", )
     //     }
     // }
 }
@@ -281,7 +282,7 @@ TREE sync_catX()
     {
         char curr = *lookahead;
         lookahead++;
-        return makeNode1('X', makeNode0(curr));
+        return makeNode1("X", makeNode0(&curr));
     }
  
     return FAILED;
@@ -297,7 +298,7 @@ void print(TREE parseTree, int j)
     {
         printf(" ");
     }
-    printf("%c\n", parseTree->label);
+    printf("%s\n", parseTree->label);
     curr = parseTree->leftmostChild;
     while (curr != NULL)
     {

@@ -8,7 +8,7 @@ extern void chooseProduction(TREE root, int production);
 extern void push(TREE curr);
 extern TREE pop();
 //function to get the row based on the given label
-extern int getRow(char label);
+extern int getRow(char* label);
 //function to get the column based on the given column
 extern int getColumn(char label);
 //function to get the production
