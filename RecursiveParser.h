@@ -15,7 +15,7 @@ extern int numFree;
 //we defined tree as pointer to a struct called node
 typedef struct NODE *TREE;
 struct NODE {
-    char label;
+    char* label;
     int indent;
     TREE leftmostChild, rightSibling;
 };
@@ -24,12 +24,12 @@ TREE parseTree;
 
 char* lookahead;
 //a tree with no children
-extern TREE makeNode(char x, int j);
-extern TREE makeNode0(char x);
+extern TREE makeNode(char* x, int j);
+extern TREE makeNode0(char* x);
 //tree with one child
-extern TREE makeNode1(char x, TREE t);
+extern TREE makeNode1(char* x, TREE t);
 //tree with four children
-extern TREE makeNode4(char x, TREE t1, TREE t2, TREE t3, TREE t4);
+extern TREE makeNode4(char* x, TREE t1, TREE t2, TREE t3, TREE t4);
 // free tree nodes
 extern void freeTREE(TREE root);
 
@@ -42,7 +42,7 @@ extern TREE sync_catCT();
 extern TREE sync_catA();
 extern TREE sync_catST();
 extern TREE sync_catX();
-extern void getLabel(char *x, int indent);
+//extern void getLabel(char *x, int indent);
 extern void printParseTree();
 extern void print(TREE parseTree, int j);
 #endif

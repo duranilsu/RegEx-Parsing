@@ -3,13 +3,7 @@
 #define _Table_Parser_h
 //choose production from the table--what does it take in though?
 char* nextTerminal;
-<<<<<<< HEAD
-extern void chooseProduction(TREE root, int production);
-=======
 char printing[MAX];
-int indexForPrinting = 0;
-
->>>>>>> added stuff
 extern void push(TREE curr);
 extern TREE pop();
 //function to get the row based on the given label
@@ -24,6 +18,7 @@ extern int is_terminal(char c);
 extern int is_operator(char c);
 //we need to have functions for each production
 extern void makeProduction1(TREE root);
+
 extern void makeProduction2(TREE root);
 extern void makeProduction3(TREE root);
 extern void makeProduction4(TREE root);
@@ -32,7 +27,8 @@ extern void makeProduction6(TREE root);
 extern void makeProduction7(TREE root);
 extern void makeProduction8(TREE root);
 extern int getSize ();
-
+extern void printParseTree();
+extern void getLabel(char *x, int indent);
 extern void makeProductionNeg();
 //function to match the terminals
 extern bool marchterminal(char c);

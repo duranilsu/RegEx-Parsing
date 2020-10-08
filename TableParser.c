@@ -14,7 +14,9 @@
     <E>
 */
 int size = 0;
+int indexForPrinting = 0;
 TREE stack[MAX];
+
 
 // char* nextTerminal;
 //it should point to the same character as what lookahead is pointing to
@@ -317,7 +319,7 @@ bool ParsFunction()
         if (current == FAILED) 
         {
             //printf("Invalid input1");
-            return FAILED;
+            return false;
         }
         //otherwise,we can check for valid input and get the column
         int column = getColumn(*nextTerminal);
@@ -358,7 +360,7 @@ bool ParsFunction()
         }
         else
         {
-            getLabel(current->label, current->indent);
+            getLabel(&current->label, current->indent);
             freeTREE(current);
             //return root;
             //if i returned root here-- it would just give me <E> that is why it is best to do nothing
@@ -481,7 +483,8 @@ void push(TREE curr)
 //get printing line for node
 void getLabel(char *x, int indent) {
     int index = 0;
-    while (index < indent){
+    while (index < indent)
+    {
         printing[indexForPrinting] = ' ';
         indexForPrinting++;
         printing[indexForPrinting] = ' ';
@@ -490,6 +493,7 @@ void getLabel(char *x, int indent) {
         //printf("  ");
     }
     int i = 0;
+    //need to remember this
     while (x[i] != '\0'){
         printing[indexForPrinting] = x[i];
         indexForPrinting++;

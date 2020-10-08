@@ -7,17 +7,20 @@
 #include <string.h>
 #include <stdbool.h>
 #include "RecursiveParser.h"
-#include "TableParser.h"
+#include "tableDrivenParser.h"
 
 //lookahead? where is it intialized here
 int numFree = 0;
 int numNodes = 0;
+
+char* start;
+
 int main()
 {
 
     //the expression's storage
     
-    char input[MAX];
+    //char input[256];
     // printf("-------------Recursive Decent Parser-------------");
     // while (true)
     // {
@@ -133,41 +136,49 @@ int main()
 
     //the final one I hope
     printf("-------------Table-Driven Parser-------------\n");
-    while (true)
-    {
-        printf("Enter an Arithmetic expression or type quit to exit \n");
-        scanf("%s", input);
-        if (strcmp(input, "quit") == 0)
-        {
-            break;
-        }
-        nextTerminal = input;
-        //printf("%c here is the pointer\n", *lookahead);
-        printf("Trying to parse noww......");
-        TREE parse = ParsFunction();
-        printf("%c here is the pointer\n", *nextTerminal);
-        printf("Parsing on: %s \n", input);
-        //ParsFunction()
-        if(!ParsFunction()) 
-        {
-            // if (parseTree != FAILED)
-            // {
-            //     freeTREE(parseTree);
-            // }
-            printf("Invalid input- parse is null\n");
-        } 
-        else 
-        {
-            printf("----------------------|Tree|----------------------\n");
-            //freeTREE(parse);
-            printf("\n");
-            //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
-        }
-        while (getSize() != 0)
-        {
-            TREE curr = pop();
-            freeTREE(curr);
-        }
-    }
+    // start = (char*) malloc(sizeof(char)* 256);
+    // while (true)
+    // {
+    //     printf("Enter an Arithmetic expression or type quit to exit \n");
+    //     scanf("%s", input);
+    //     if (strcmp(input, "quit") == 0)
+    //     {
+    //         break;
+    //     }
+    //     nextTerminal = start;
+    //     //printf("%c here is the pointer\n", *lookahead);
+    //     printf("Trying to parse noww......\n");
+    //     //TREE parse = ParsFunction();
+    //     //printf("%c here is the pointer\n", *nextTerminal);
+    //     printf("Parsing on: %s \n", input);
+    //     strcpy(nextTerminal, input);
+    //     printf("here is the start %s\n", start);
+    //     printf("here is next terminal: %s\n", nextTerminal);
+    //     //ParsFunction()
+    //     if(!ParsFunction()) 
+    //     {
+    //         // if (parseTree != FAILED)
+    //         // {
+    //         //     freeTREE(parseTree);
+    //         // }
+    //         printf("Invalid input- parse is null\n");
+    //     } 
+    //     else 
+    //     {
+    //         printf("----------------------|Tree|----------------------\n");
+    //         //freeTREE(parse);
+    //         printParseTree();
+    //         //printf("\n");
+    //         //printf("Nodes: %d \nFreedNodes: %d\n",numNodes, numFree);
+    //     }
+    //     printf("\n");
+    //     // while (getSize() != 0)
+    //     // {
+    //     //     TREE curr = pop();
+    //     //     freeTREE(curr);
+    //     // }
+    // }
+    // free(start);
+    tryTableDrivenParser();
 
 }
