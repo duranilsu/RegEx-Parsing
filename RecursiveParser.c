@@ -6,16 +6,60 @@
 #include "RecursiveParser.h"
 
 
-
-TREE makeNode(char* x, int indent) {
+TREE parseTree;
+char* start;
+TREE makeNode(char *x, int indent) {
     TREE root;
-    printf("hellow world\n");
+
     root = malloc(sizeof(struct NODE));
-    //numNodes++;
+    numNodes++;
     root->label = x;
+    root->indent = indent;
     root->leftmostChild = NULL;
     root->rightSibling = NULL;
-    printf("label in makenode is -- %s\n", root->label);
+    return root;
+}
+
+TREE make1Node(char *x, TREE t, int indent) {
+    TREE root;
+
+    root = makeNode(x, indent);
+    root->leftmostChild = t;
+    return root;
+}
+TREE make2Node (char *x, TREE t1, TREE t2, int indent)
+{
+    TREE root = make1Node(x, t1,indent);
+    t1->rightSibling = t2;
+    return root;
+}
+/*
+    x
+  /  \       \
+t1 --> t2 --> t3
+*/
+TREE make3Node (char *x, TREE t1, TREE t2, TREE t3, int indent)
+{
+    TREE root;
+    root = make1Node(x, t1,indent);
+    t1->rightSibling = t2;
+    t2->rightSibling = t3;
+    return root;
+}
+
+/*
+    x
+  /  \       \      \
+t1 --> t2 --> t3 --> t4
+*/
+TREE make4Node(char *x, TREE t1, TREE t2, TREE t3, TREE t4, int indent) 
+{
+    TREE root;
+
+    root = make1Node(x, t1, indent);
+    t1->rightSibling = t2;
+    t2->rightSibling = t3;
+    t3->rightSibling = t4;
     return root;
 }
 
@@ -37,7 +81,7 @@ TREE makeNode0(char* x) {
   /
 t1
 */
-TREE makeNode1(char* x, TREE t) {
+TREE makeNode1(char *x, TREE t) {
     TREE root;
 
     root = makeNode0(x);
@@ -45,7 +89,7 @@ TREE makeNode1(char* x, TREE t) {
     return root;
 }
 
-TREE makeNode2 (char* x, TREE t1, TREE t2)
+TREE makeNode2 (char *x, TREE t1, TREE t2)
 {
     TREE root = makeNode1(x, t1);
     t1->rightSibling = t2;
@@ -56,7 +100,7 @@ TREE makeNode2 (char* x, TREE t1, TREE t2)
   /  \       \
 t1 --> t2 --> t3
 */
-TREE makeNode3 (char* x, TREE t1, TREE t2, TREE t3)
+TREE makeNode3 (char *x, TREE t1, TREE t2, TREE t3)
 {
     TREE root;
     root = makeNode1(x, t1);
@@ -70,7 +114,7 @@ TREE makeNode3 (char* x, TREE t1, TREE t2, TREE t3)
   /  \       \      \
 t1 --> t2 --> t3 --> t4
 */
-TREE makeNode4(char* x, TREE t1, TREE t2, TREE t3, TREE t4) {
+TREE makeNode4(char *x, TREE t1, TREE t2, TREE t3, TREE t4) {
     TREE root;
 
     root = makeNode1(x, t1);
@@ -169,7 +213,7 @@ TREE sync_catCT()
         c = sync_catC();
         if (c != FAILED)
         {
-            return makeNode2("CT", makeNode0("."), c);
+            return makeNode2("B", makeNode0("."), c);
         }
         else
         {
@@ -320,6 +364,52 @@ void freeTREE(TREE root)
     numFree++;
     free(root);
     
+}
+
+TREE buildRecursiveParser(char *input) 
+{
+    lookahead = input;
+    parseTree = sync_catE();
+    if (*lookahead != '\0' && parseTree == FAILED){
+        printf("Invalid input!");
+        return FAILED;
+    }
+    return parseTree;
+}
+
+void runRecursiveParser()
+{
+    //nextTerminal = "a.b.c*";
+    do
+    {
+        start = malloc(sizeof(char)*MAX);
+    } while (start == FAILED);
+    bool flag = true;
+    printf("-------------------------\n");
+    printf("Running Recursive Descent Parser...\n");
+    while (flag){
+        printf("\tEnter expression here (\"quit\" to quit and no more than 255 characters):");
+        char input[MAX];
+        scanf("%255s",input);
+        if (strcmp(input,"quit") == 0){
+            flag = false;
+        }
+        else {
+            printf("Result for \"%s\":\n \n", input);
+            lookahead = start;
+            strcpy(lookahead,input);
+            parseTree = sync_catE();
+            if (*lookahead != '\0' && parseTree == FAILED){
+                printf("Invalid input");
+            }
+            else {
+                print(parseTree, -1);
+                freeTREE(parseTree);
+            }
+        }
+        printf("\n");
+    }
+    free(start);
 }
 
 
