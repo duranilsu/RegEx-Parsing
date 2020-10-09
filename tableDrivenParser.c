@@ -15,7 +15,8 @@ int size = 0;
 int** parseTable;
 
 
-void tryTableDrivenParser(){
+void tryTableDrivenParser()
+{
     start = (char*) malloc(sizeof(char)*256);
     createParseTable();
     bool flag = true;
@@ -28,11 +29,13 @@ void tryTableDrivenParser(){
         if (strcmp(input,"quit") == 0){
             flag = false;
         }
-        else {
+        else 
+        {
             printf("Result for \"%s\":\n \n", input);
             nextTerminal = start;
             strcpy(nextTerminal,input);
-            if (!parsing()){
+            if (!parsing())
+            {
                 printError();
             }
             else {
@@ -82,6 +85,7 @@ bool parsing(){
         }
         if (curr != FAILED) {
             getLabel(curr->label,curr->indent);
+            //printf("I am working, label is: %s \t and %d:\n", curr->label, curr->indent);
             freeTREE(curr);
         }
         else {
@@ -410,8 +414,10 @@ void printParseTree(){
     indexPrinting = 0;
 }
 
-void freeTable(int** parseTable){
-    for (int i = 0; i < 9; i++){
+void freeTable(int** parseTable)
+{
+    for (int i = 0; i < 9; i++)
+    {
         free(parseTable[i]);
     }
     free(parseTable);

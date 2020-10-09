@@ -8,6 +8,7 @@
 #include <stdbool.h>
 #include "RecursiveParser.h"
 #include "tableDrivenParser.h"
+#include "convertToExpression.h"
 
 //lookahead? where is it intialized here
 int numFree = 0;
@@ -20,7 +21,7 @@ int main()
 
     //the expression's storage
     
-    //char input[256];
+    // char input[256];
     // printf("-------------Recursive Decent Parser-------------");
     // while (true)
     // {
@@ -135,7 +136,7 @@ int main()
     
 
     //the final one I hope
-    printf("-------------Table-Driven Parser-------------\n");
+    //printf("-------------Table-Driven Parser-------------\n");
     // start = (char*) malloc(sizeof(char)* 256);
     // while (true)
     // {
@@ -165,7 +166,7 @@ int main()
     //     } 
     //     else 
     //     {
-    //         printf("----------------------|Tree|----------------------\n");
+    //         printf("--------a.b.--------------|Tree|----------------------\n");
     //         //freeTREE(parse);
     //         printParseTree();
     //         //printf("\n");
@@ -179,6 +180,8 @@ int main()
     //     // }
     // }
     // free(start);
+    runRecursiveParser();
     tryTableDrivenParser();
+    runConvert();
 
 }
