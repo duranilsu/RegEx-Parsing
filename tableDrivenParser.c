@@ -21,9 +21,9 @@ void tryTableDrivenParser()
     createParseTable();
     bool flag = true;
     printf("-------------------------\n");
-    printf("Trying Table Driven Parser...\n");
+    printf("Running Table Driven Parser...\n");
     while (flag){
-        printf("\tEnter expression here (\"quit\" to quit and no more than 255 characters):");
+        printf("\tEnter expression here (\"quit\" to quit):");
         char input[256];
         scanf("%255s",input);
         if (strcmp(input,"quit") == 0){
@@ -50,8 +50,6 @@ void tryTableDrivenParser()
     }
     free(start);
     freeTable(parseTable);
-    //freeStack();
-    //free(printing);
 }
 
 //return if parsing is success
@@ -85,7 +83,6 @@ bool parsing(){
         }
         if (curr != FAILED) {
             getLabel(curr->label,curr->indent);
-            //printf("I am working, label is: %s \t and %d:\n", curr->label, curr->indent);
             freeTREE(curr);
         }
         else {
@@ -365,12 +362,10 @@ void production8(TREE curr){
     char c = *nextTerminal;
     int num = curr->indent+1;
     if ((int) c > 96 && (int) c < 123){
-        //nextTerminal++;
         char *input = malloc(2*sizeof(char));
         input[0] = c;
         input[1] = '\0';
         TREE in = makeNode(input,num);
-        //in->freeable = true;
         push(in);
         return;
     }
@@ -390,7 +385,7 @@ void getLabel(char *x, int indent) {
         printing[indexPrinting] = ' ';
         indexPrinting++;
         index++;
-        //printf("  ");
+
     }
     int i = 0;
     while (x[i] != '\0'){

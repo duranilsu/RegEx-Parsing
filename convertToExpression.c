@@ -12,7 +12,7 @@ void runConvert() {
     printf("-------------------------\n");
     printf("Converting from parse TREE to expression TREE...\n");
     while (flag){
-        printf("\tEnter expression here (\"quit\" to quit and no more than 255 characters):");
+        printf("\tEnter expression here (\"quit\" to quit):");
         char input[MAX];
         scanf("%255s",input);
         if (strcmp(input,"quit") == 0){
@@ -42,7 +42,6 @@ TREE convertToExpressionTree(TREE root) {
 }
 
 TREE nodeE(TREE node) {
-    // printf("Visit E\n");
     TREE c = node->leftmostChild;
     TREE et = c->rightSibling;
 
@@ -60,7 +59,6 @@ TREE nodeE(TREE node) {
 }
 
 TREE nodeC(TREE node) {
-    // printf("Visit C\n");
     TREE s = node->leftmostChild;
     TREE ct = s->rightSibling;
 
@@ -78,7 +76,7 @@ TREE nodeC(TREE node) {
 }
 
 TREE nodeS(TREE node) {
-    // printf("Visit S\n");
+  
     TREE a = node->leftmostChild;
     TREE st = a->rightSibling;
 
@@ -96,7 +94,7 @@ TREE nodeS(TREE node) {
 }
 
 TREE nodeST(TREE node) {
-    // printf("Visit ST\n");
+
     TREE star = node->leftmostChild;
     TREE st = star->rightSibling;
 
@@ -109,7 +107,7 @@ TREE nodeST(TREE node) {
 }
 
 TREE nodeA(TREE node) {
-    // printf("Visit A\n");
+
     if (strcmp(node->leftmostChild->label, "(") == 0)
         return nodeE(node->leftmostChild->rightSibling);
     else {
@@ -118,13 +116,10 @@ TREE nodeA(TREE node) {
 }
 
 TREE nodeX(TREE node) {
-    // printf("Visit X\n");
-    
+
     TREE letter = node->leftmostChild;
-    //char *atomic = "ATOMIC ";
     char* trueLabel = concat("ATOMIC ",letter->label);
     TREE expression = makeNode(trueLabel, 0);
-    //expression->freeable = true;
     return expression;
 }
 

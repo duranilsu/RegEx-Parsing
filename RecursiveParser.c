@@ -124,10 +124,6 @@ TREE makeNode4(char *x, TREE t1, TREE t2, TREE t3, TREE t4) {
     return root;
 }
 
-
-//lookahead func to b implemented
-//we need to implement all the individual funcs
-
 /* <E> -> <C><ET> */
 TREE sync_catE ()
 {
@@ -151,7 +147,6 @@ TREE sync_catE ()
     }
 }
 
-//look at this again
 /* <ET> -> | <E> | e ..we have F for <ET>*/
 TREE sync_catET()
 {
@@ -202,7 +197,6 @@ TREE sync_catC ()
     }
 }
 
-//check these functions and make sure they work
 /* <CT> -> .<C> | e */
 TREE sync_catCT()
 {
@@ -226,7 +220,7 @@ TREE sync_catCT()
     }
 }
 
-/* S -> <A><ST> ..we have P for <ST>*/
+/* S -> <A><ST>*/
 TREE sync_catS()
 {
     TREE a;
@@ -273,8 +267,6 @@ TREE sync_catST ()
 }
 
 /* <A> -> (<E>) | <X> */
-
-//cheeck this one again...arent we making a tree of three?
 TREE sync_catA()
 {
     TREE e;
@@ -307,16 +299,6 @@ TREE sync_catA()
         }
         
     }
-   
-
-    // if (e != NULL)
-    // {
-    //     x = sync_catX();
-    //     if (x != NULL)
-    //     {
-    //         return makeNode2("E", )
-    //     }
-    // }
 }
 
 TREE sync_catX()
@@ -379,7 +361,6 @@ TREE buildRecursiveParser(char *input)
 
 void runRecursiveParser()
 {
-    //nextTerminal = "a.b.c*";
     do
     {
         start = malloc(sizeof(char)*MAX);
@@ -388,7 +369,7 @@ void runRecursiveParser()
     printf("-------------------------\n");
     printf("Running Recursive Descent Parser...\n");
     while (flag){
-        printf("\tEnter expression here (\"quit\" to quit and no more than 255 characters):");
+        printf("\tEnter expression here (\"quit\" to quit):");
         char input[MAX];
         scanf("%255s",input);
         if (strcmp(input,"quit") == 0){
